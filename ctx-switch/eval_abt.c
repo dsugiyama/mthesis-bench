@@ -29,7 +29,7 @@ void _loop_func_0(uint64_t from, uint64_t to_exclusive, int step, void *args[])
     }
 }
 
-int main(int argc, char *argv[])
+int ompc_main(int argc, char *argv[])
 {
     int NTHRDS = atoi(argv[1]);
     int DELAY_USEC = atoi(argv[2]);
