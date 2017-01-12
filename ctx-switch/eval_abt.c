@@ -45,4 +45,6 @@ int ompc_main(int argc, char *argv[])
 
     double elapsed = get_clock() - start;
     printf("%f sec\n", elapsed);
+
+    return 0;
 }
