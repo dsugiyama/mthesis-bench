@@ -6,9 +6,6 @@ OMPC_FLAGS="/home/sugiyama/inst/omni-compiler_cilk/opt/lib/ompc_main.o \
             -L/home/sugiyama/inst/hwloc-1.11.2/lib \
             -lompc -labt -lhwloc -lpthread -qopenmp"
 
-$ICC -c ../clock.c
-$ICC -c delay.c
-
-$ICC eval_omp.c delay.o clock.o -o eval_iomp -qopenmp
-$GCC eval_omp.c delay.o clock.o -o eval_gomp -fopenmp
-$ICC eval_abt.c delay.o clock.o $OMPC_FLAGS -o eval_abt
+$ICC eval_omp.c delay.c ../clock.c -o eval_iomp -qopenmp
+$GCC eval_omp.c delay.c ../clock.c -o eval_gomp -fopenmp
+$ICC eval_abt.c delay.c ../clock.c $OMPC_FLAGS -o eval_abt
