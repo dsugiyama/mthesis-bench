@@ -24,4 +24,5 @@ $GCC test_omp.c dgemm_omp.c ../clock.c -o dgemm_gomp_cyclic -fopenmp -DSCHED_CYC
 $ICC test_abt.c dgemm_abt.c ../clock.c $OMPC_MAIN $OMPC_FLAGS -o dgemm_abt_block
 $ICC test_abt.c dgemm_abt.c ../clock.c $OMPC_MAIN $OMPC_FLAGS -o dgemm_abt_cyclic -DSCHED_CYCLIC
 
-$ICC test_abt.c dgemm_abt.c ../clock.c ompc_serial_spawn.c $OMPC_FLAGS -o dgemm_abt_serial_spawn
+$ICC test_abt.c dgemm_abt.c ../clock.c ompc_serial_spawn.c $OMPC_FLAGS -o dgemm_abt_serial_spawn \
+    -I/home/sugiyama/inst/argobots/opt/include
