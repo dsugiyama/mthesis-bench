@@ -12,6 +12,13 @@ int main(int argc, char *argv[])
 {
     delay_length = delay_length_from_sec(0.001);
 
+    #pragma cilk grainsize = 1
+    cilk_for (int i = 0; i < 256; i++) {
+        for (int j = 0; j < 100; j++) {
+            delay(delay_length);
+        }
+    }
+
     double loop_start = get_clock();
     #pragma cilk grainsize = 1
     cilk_for (int i = 0; i < 256; i++) {
