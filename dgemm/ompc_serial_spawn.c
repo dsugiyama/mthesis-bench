@@ -14,6 +14,8 @@ int main(int argc, char *argv[])
         num_threads = atoi(num_threads_env);
     }
 
+    ABT_init(argc, argv);
+
     ABT_xstream_self(&xstreams[0]);
     for (int i = 1; i < num_threads; i++) {
         ABT_xstream_create_basic(ABT_SCHED_DEFAULT, 1, NULL, ABT_SCHED_CONFIG_NULL, &xstreams[i]);
