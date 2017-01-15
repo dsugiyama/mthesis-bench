@@ -87,7 +87,7 @@ workloads = {
 
   'abt-serial-spawn' => lambda do
     num_threads.each do |n|
-      run "LD_LIBRARY_PATH=/home/sugiyama/inst/argobots_master/opt/lib:$PATH" +
+      run "LD_LIBRARY_PATH=/home/sugiyama/inst/argobots_master/opt/lib:$LD_LIBRARY_PATH" +
           "OMPC_NUM_PROCS=#{n} #{membind} ./dgemm_abt_serial_spawn #{L} #{M} #{N}", niter, (n >= 64)
     end
   end,
