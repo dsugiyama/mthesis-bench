@@ -1,5 +1,5 @@
-#include <stdio.h>
 #define _GNU_SOURCE
+#include <stdio.h>
 #include <sched.h>
 #include <pthread.h>
 #include <omp.h>
