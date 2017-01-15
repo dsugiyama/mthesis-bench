@@ -5,7 +5,11 @@
 #include <abt.h>
 #include "../ompc.h"
 
+int delay_length_from_sec(double delay_sec);
+void delay(int delay_length);
+
 int bindings[256];
+int delay_length;
 
 void _loop_func_0(uint64_t from, uint64_t to_exclusive, int step, void *args[])
 {
@@ -21,11 +25,16 @@ void _loop_func_0(uint64_t from, uint64_t to_exclusive, int step, void *args[])
             break;
         }
     }
+
+    for (int i = 0; i < 100; i++) {
+        delay(delay_length);
+    }
 }
 
 int ompc_main(int argc, char *argv[])
 {
     int num_threads = ompc_get_max_threads();
+    delay_length = delay_length_from_sec(0.001);
 
     ompc_loop_divide_conquer(_loop_func_0, 0, NULL, 0, 256, 1, 256);
 
