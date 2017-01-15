@@ -11,12 +11,14 @@ double iter_start[256];
 void _loop_func_0(uint64_t from, uint64_t to_exclusive, int step, void *args[])
 {
     iter_start[from] = get_clock();
-    delay(delay_length);
+    for (int i = 0; i < 100; i++) {
+        delay(delay_length);
+    }
 }
 
 int ompc_main(int argc, char *argv[])
 {
-    delay_length = delay_length_from_sec(1.0);
+    delay_length = delay_length_from_sec(0.001);
 
     double loop_start = get_clock();
     ompc_loop_divide_conquer(_loop_func_0, 0, NULL, 0, 256, 1, 256);
