@@ -16,6 +16,6 @@ else
                 -lompc -labt -lhwloc -lpthread -qopenmp"
 fi
 
-$ICC eval_omp.c delay.c ../clock.c -o eval_iomp -qopenmp
-$GCC eval_omp.c delay.c ../clock.c -o eval_gomp -fopenmp
-$ICC eval_abt.c delay.c ../clock.c $OMPC_FLAGS -o eval_abt
+$ICC eval_omp.c ../delay.c ../clock.c -o eval_iomp -qopenmp
+$GCC eval_omp.c ../delay.c ../clock.c -o eval_gomp -fopenmp
+$ICC eval_abt.c ../delay.c ../clock.c $OMPC_FLAGS -o eval_abt
