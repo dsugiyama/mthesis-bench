@@ -5,6 +5,7 @@ workloads_to_run = []
 num_threads = []
 niter = "1"
 membind = ""
+iomp_proc_bind = "OMP_PROC_BIND=true"
 
 parser = OptionParser.new
 parser.on('-m', '--matsize=L,M,N', 'Matrix size (C[L][N] = A[L][M] * B[M][N])') do |v|
@@ -21,6 +22,7 @@ parser.on('-i', '--num-iterations=NUM', 'Number of iterations') do |v|
 end
 parser.on('--knl', 'Whether executed on KNL') do
     membind = "numactl --membind 1"
+    iomp_proc_bind = ""
 end
 parser.on_tail('-h', '--help', 'Show this message') do
     puts parser
@@ -51,13 +53,13 @@ workloads = {
 
   'iomp-cyclic' => lambda do
     num_threads.each do |n|
-      run "OMP_NUM_THREADS=#{n} #{membind} ./dgemm_iomp_cyclic #{L} #{M} #{N}", niter, (n >= 64)
+      run "OMP_NUM_THREADS=#{n} #{iomp_proc_bind} #{membind} ./dgemm_iomp_cyclic #{L} #{M} #{N}", niter, (n >= 64)
     end
   end,
 
   'iomp-block' => lambda do
     num_threads.each do |n|
-      run "OMP_NUM_THREADS=#{n} #{membind} ./dgemm_iomp_block  #{L} #{M} #{N}", niter, (n >= 64)
+      run "OMP_NUM_THREADS=#{n} #{iomp_proc_bind} #{membind} ./dgemm_iomp_block  #{L} #{M} #{N}", niter, (n >= 64)
     end
   end,
 
@@ -94,7 +96,7 @@ workloads = {
 
   'iomp-lib' => lambda do
     num_threads.each do |n|
-      run "OMP_NUM_THREADS=#{n} OMP_NESTED=true #{membind} ./dgemm_lib_iomp #{L} #{M} #{N}", niter, (n >= 64)
+      run "OMP_NUM_THREADS=#{n} OMP_NESTED=true #{iomp_proc_bind} #{membind} ./dgemm_lib_iomp #{L} #{M} #{N}", niter, (n >= 64)
     end
   end,
 
