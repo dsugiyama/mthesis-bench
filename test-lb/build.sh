@@ -16,4 +16,4 @@ else
                 -lompc -labt -lhwloc -lpthread -qopenmp"
 fi
 
-$ICC test_abt.c ../clock.c $OMPC_MAIN $OMPC_FLAGS -o test_abt
+$ICC test_abt.c ../delay.c ../clock.c $OMPC_MAIN $OMPC_FLAGS -o test_abt
