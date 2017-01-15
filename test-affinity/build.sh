@@ -16,4 +16,4 @@ else
                 -lompc -labt -lhwloc -lpthread -qopenmp"
 fi
 
-$ICC -qopenmp test_omp.c -o test_omp
+$ICC -qopenmp test_omp.c -o test_omp -pthread
