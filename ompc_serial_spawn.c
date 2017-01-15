@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <abt.h>
-#include "../ompc.h"
+#include "ompc.h"
 
 int ompc_main(int argc, char *argv[]);
 
