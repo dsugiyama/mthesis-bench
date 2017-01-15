@@ -1,6 +1,6 @@
 #include <stddef.h>
 #include <string.h>
-#include "ompc.h"
+#include "../ompc.h"
 
 void daxpy(size_t n, double a, double x[restrict], double y[restrict]);
 

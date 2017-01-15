@@ -1,10 +1,7 @@
-#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "../ompc.h"
 
-typedef void (*loop_func_t)(uint64_t from, uint64_t to_exclusive, int step, void *args[]);
-void ompc_loop_divide_conquer(loop_func_t func, int nargs, void *args,
-                              uint64_t from, uint64_t to_exclusive, int step, int num_tasks);
 double get_clock(void);
 int delay_length_from_sec(double delay_sec);
 void delay(int delay_length);

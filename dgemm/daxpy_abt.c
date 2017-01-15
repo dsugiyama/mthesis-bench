@@ -1,5 +1,5 @@
 #include <stddef.h>
-#include "ompc.h"
+#include "../ompc.h"
 
 void _loop_func_0(uint64_t from, uint64_t to_exclusive, int step, void *args[])
 {
