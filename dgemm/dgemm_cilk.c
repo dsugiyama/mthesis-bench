@@ -13,15 +13,12 @@ void dgemm(size_t l, size_t m, size_t n, double A[restrict][m], double B[restric
     #pragma cilk grainsize = l / __cilkrts_get_nworkers()
 #endif
     cilk_for (size_t i = 0; i < l; i++) {
-        memset(C[i], 0, sizeof(double [n]));
+        C[i][:] = 0;
         for (size_t k = 0; k < m; k++) {
 #ifdef LIB_DAXPY
             daxpy(n, A[i][k], B[k], C[i]);
 #else
-            #pragma simd
-            for (size_t j = 0; j < n; j++) {
-                C[i][j] += A[i][k] * B[k][j];
-            }
+            C[i][:] += A[i][k] * B[k][:]
 #endif
         }
     }
