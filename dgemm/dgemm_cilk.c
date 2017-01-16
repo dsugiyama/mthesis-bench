@@ -18,7 +18,7 @@ void dgemm(size_t l, size_t m, size_t n, double A[restrict][m], double B[restric
 #ifdef LIB_DAXPY
             daxpy(n, A[i][k], B[k], C[i]);
 #else
-            C[i][:] += A[i][k] * B[k][:]
+            C[i][:] += A[i][k] * B[k][:];
 #endif
         }
     }
