@@ -17,4 +17,7 @@ else
 fi
 
 $ICC test_abt.c  ../delay.c ../clock.c $OMPC_MAIN $OMPC_FLAGS -o test_abt
+$ICC test_abt.c  ../delay.c ../clock.c ../ompc_serial_spawn.c -o test_abt_master \
+    -I/home/sugiyama/inst/argobots/opt/include -L/home/sugiyama/inst/argobots/opt/lib \
+    -labt -lpthread
 $ICC test_cilk.c ../delay.c ../clock.c -o test_cilk
