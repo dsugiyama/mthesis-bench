@@ -27,5 +27,8 @@ $ICC test_abt.c dgemm_abt.c ../clock.c $OMPC_MAIN $OMPC_FLAGS -o dgemm_abt_cycli
 $ICC test_abt.c dgemm_abt.c ../clock.c ../ompc_serial_spawn.c -o dgemm_abt_serial_spawn \
     -I/home/sugiyama/inst/argobots/opt/include -L/home/sugiyama/inst/argobots/opt/lib \
     -labt -lpthread
+$ICC test_abt.c dgemm_abt.c ../clock.c ../ompc_serial_spawn_task.c -o dgemm_abt_serial_spawn_task \
+    -I/home/sugiyama/inst/argobots/opt/include -L/home/sugiyama/inst/argobots/opt/lib \
+    -labt -lpthread
 $ICC test_cilk.c dgemm_cilk.c ../clock.c -o dgemm_cilk_block
 $ICC test_cilk.c dgemm_cilk.c ../clock.c -o dgemm_cilk_cyclic -DSCHED_CYCLIC
