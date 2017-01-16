@@ -96,11 +96,11 @@ workloads = {
 
   'iomp-lib' => lambda do
     num_threads.each do |n|
-      run "OMP_NUM_THREADS=#{n} OMP_NESTED=true #{iomp_proc_bind} #{membind} ./dgemm_lib_iomp #{L} #{M} #{N}", niter, (n >= 64)
+      run "OMP_NUM_THREADS=#{n},32 OMP_NESTED=true #{iomp_proc_bind} #{membind} ./dgemm_lib_iomp #{L} #{M} #{N}", niter, (n >= 64)
     end
   end,
 
-  'iomp-lib-serial' => lambda do
+  'iomp-lib-nonest' => lambda do
     num_threads.each do |n|
       run "OMP_NUM_THREADS=#{n} #{iomp_proc_bind} #{membind} ./dgemm_lib_iomp_serial #{L} #{M} #{N}", niter, (n >= 64)
     end
@@ -108,11 +108,11 @@ workloads = {
 
   'gomp-lib' => lambda do
     num_threads.each do |n|
-      run "OMP_NUM_THREADS=#{n} OMP_NESTED=true OMP_PROC_BIND=true #{membind} ./dgemm_lib_gomp #{L} #{M} #{N}", niter, (n >= 64)
+      run "OMP_NUM_THREADS=#{n},32 OMP_NESTED=true OMP_PROC_BIND=true #{membind} ./dgemm_lib_gomp #{L} #{M} #{N}", niter, (n >= 64)
     end
   end,
 
-  'gomp-lib-serial' => lambda do
+  'gomp-lib-nonest' => lambda do
     num_threads.each do |n|
       run "OMP_NUM_THREADS=#{n} OMP_PROC_BIND=true #{membind} ./dgemm_lib_gomp_serial #{L} #{M} #{N}", niter, (n >= 64)
     end
