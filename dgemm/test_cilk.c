@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <cilk/cilk.h>
+#include <cilk/cilk_api.h>
 
 void dgemm(size_t l, size_t m, size_t n, double A[restrict][m], double B[restrict][n], double C[restrict][n]);
 double get_clock(void);
