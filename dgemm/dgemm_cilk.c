@@ -18,6 +18,7 @@ void dgemm(size_t l, size_t m, size_t n, double A[restrict][m], double B[restric
 #ifdef LIB_DAXPY
             daxpy(n, A[i][k], B[k], C[i]);
 #else
+            #pragma simd
             for (size_t j = 0; j < n; j++) {
                 C[i][j] += A[i][k] * B[k][j];
             }
