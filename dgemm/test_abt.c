@@ -7,6 +7,11 @@ double get_clock(void);
 
 _Thread_local unsigned int seed = 0;
 
+#ifdef ENABLE_LOGGING
+extern double iter_start[256];
+extern double iter_end[256];
+#endif
+
 static void _loop_func_0(uint64_t from, uint64_t to_exclusive, int step, void *args[])
 {
     size_t N = *(size_t *) args[0];
@@ -50,6 +55,14 @@ int ompc_main(int argc, char *argv[])
 
     size_t x = rand_r(&seed) % L, y = rand_r(&seed) % N;
     printf("C[%zu][%zu] = %f\n", x, y, C[x][y]);
+
+#ifdef ENABLE_LOGGING
+    int num_threads = ompc_get_max_threads();
+
+    for (int i = 0; i < num_threads; i++) {
+        printf("%e %e\n", iter_start[i] - t1, t2 - iter_end[i]);
+    }
+#endif
 
     free(A);
     free(B);

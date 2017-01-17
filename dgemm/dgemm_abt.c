@@ -1,11 +1,24 @@
 #include <stddef.h>
 #include <string.h>
+#include <abt.h>
 #include "../ompc.h"
 
 void daxpy(size_t n, double a, double x[restrict], double y[restrict]);
+double get_clock(void);
+
+#ifdef ENABLE_LOGGING
+double iter_start[256];
+double iter_end[256];
+#endif
 
 static void _loop_func_0(uint64_t from, uint64_t to_exclusive, int step, void *args[])
 {
+#ifdef ENABLE_LOGGING
+    int rank;
+    ABT_xstream_self_rank(&rank);
+    iter_start[rank] = get_clock();
+#endif
+
     size_t m = *(size_t *) args[0];
     size_t n = *(size_t *) args[1];
     double (*restrict A)[m] = args[2];
@@ -24,6 +37,10 @@ static void _loop_func_0(uint64_t from, uint64_t to_exclusive, int step, void *a
 #endif
         }
     }
+
+#ifdef ENABLE_LOGGING
+    iter_end[rank] = get_clock();
+#endif
 }
 
 void dgemm(size_t l, size_t m, size_t n, double A[restrict][m], double B[restrict][n], double C[restrict][n])

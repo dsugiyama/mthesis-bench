@@ -1,10 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <omp.h>
 
 void dgemm(size_t l, size_t m, size_t n, double A[restrict][m], double B[restrict][n], double C[restrict][n]);
 double get_clock(void);
 
 _Thread_local unsigned int seed = 0;
+
+#ifdef ENABLE_LOGGING
+extern double iter_start[256];
+extern double iter_end[256];
+#endif
 
 int main(int argc, char *argv[])
 {
@@ -45,6 +51,17 @@ int main(int argc, char *argv[])
 
     size_t x = rand_r(&seed) % L, y = rand_r(&seed) % N;
     printf("C[%zu][%zu] = %f\n", x, y, C[x][y]);
+
+#ifdef ENABLE_LOGGING
+    int num_threads;
+    #pragma omp parallel
+    #pragma omp single
+    num_threads = omp_get_num_threads();
+
+    for (int i = 0; i < num_threads; i++) {
+        printf("%e %e\n", iter_start[i] - t1, t2 - iter_end[i]);
+    }
+#endif
 
     free(A);
     free(B);
