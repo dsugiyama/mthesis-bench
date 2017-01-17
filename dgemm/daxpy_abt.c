@@ -15,5 +15,5 @@ void _loop_func_0(uint64_t from, uint64_t to_exclusive, int step, void *args[])
 void daxpy(size_t n, double a, double x[restrict], double y[restrict])
 {
     void *_loop_args_0[] = { &a, x, y };
-    ompc_loop_divide_conquer(_loop_func_0, 3, _loop_args_0, 0, n, 1, 0);
+    ompc_loop_divide_conquer(_loop_func_0, 3, _loop_args_0, 0, n, 1, 32);
 }
