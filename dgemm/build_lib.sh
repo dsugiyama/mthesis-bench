@@ -5,6 +5,7 @@ if [[ $1 == knl ]]; then
     OMPC_FLAGS="-L/home/sugiyama/inst/omni-compiler_cilk/opt/lib \
                 -L/home/sugiyama/inst/argobots/opt/lib \
                 -L/home/sugiyama/inst/hwloc-1.11.4/lib \
+                -I/home/sugiyama/inst/argobots/opt/include \
                 -lompc -labt -lhwloc -lpthread -qopenmp"
 else
     ICC="icc -std=gnu11 -O3 -xHOST"
@@ -13,6 +14,7 @@ else
     OMPC_FLAGS="-L/home/sugiyama/inst/omni-compiler_cilk/opt/lib \
                 -L/home/sugiyama/inst/argobots/opt/lib \
                 -L/home/sugiyama/inst/hwloc-1.11.2/lib \
+                -I/home/sugiyama/inst/argobots/opt/include \
                 -lompc -labt -lhwloc -lpthread -qopenmp"
 fi
 
