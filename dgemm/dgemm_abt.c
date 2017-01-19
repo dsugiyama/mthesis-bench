@@ -48,6 +48,8 @@ void dgemm(size_t l, size_t m, size_t n, double A[restrict][m], double B[restric
 {
     void *_loop_args_0[] = { &m, &n, A, B, C };
 #ifdef LIB_DAXPY
+    extern int nults_inner;
+    nults_inner = atoi(getenv("NULTS_INNER"));
     ompc_loop_divide_conquer(_loop_func_0, 5, _loop_args_0, 0, l, 1, atoi(getenv("NULTS_OUTER")));
 #elif defined SCHED_CYCLIC
     ompc_loop_divide_conquer(_loop_func_0, 5, _loop_args_0, 0, l, 1, l);

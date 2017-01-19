@@ -3,6 +3,7 @@ require 'optparse'
 L = M = N = 4096
 workloads_to_run = []
 num_threads = []
+num_threads_inner = 32
 niter = "1"
 membind = ""
 iomp_proc_bind = "OMP_PROC_BIND=true"
@@ -18,6 +19,10 @@ end
 parser.on('-n', '--num-threads=LIST', 'Number of threads (comma-separated list)') do |v|
     num_threads = v.split(',').map(&:to_i)
 end
+parser.on('--num-threads-inner', 'Degree of inner level parallelism') do |v|
+  num_threads_inner = v.to_i
+end
+
 parser.on('-i', '--num-iterations=NUM', 'Number of iterations') do |v|
     niter = v
 end
@@ -97,7 +102,7 @@ workloads = {
 
   'iomp-lib' => lambda do
     num_threads.each do |n|
-      run "OMP_NUM_THREADS=#{n},32 OMP_NESTED=true #{iomp_proc_bind} #{membind} ./dgemm_lib_iomp #{L} #{M} #{N}", niter, (n >= 64)
+      run "OMP_NUM_THREADS=#{n},#{num_threads_inner} OMP_NESTED=true #{iomp_proc_bind} #{membind} ./dgemm_lib_iomp #{L} #{M} #{N}", niter, (n >= 64)
     end
   end,
 
@@ -109,7 +114,7 @@ workloads = {
 
   'gomp-lib' => lambda do
     num_threads.each do |n|
-      run "OMP_NUM_THREADS=#{n},32 OMP_NESTED=true OMP_PROC_BIND=true #{membind} ./dgemm_lib_gomp #{L} #{M} #{N}", niter, (n >= 64)
+      run "OMP_NUM_THREADS=#{n},#{num_threads_inner} OMP_NESTED=true OMP_PROC_BIND=true #{membind} ./dgemm_lib_gomp #{L} #{M} #{N}", niter, (n >= 64)
     end
   end,
 
@@ -121,7 +126,7 @@ workloads = {
 
   'abt-lib' => lambda do
     num_threads.each do |n|
-      run "OMPC_NUM_PROCS=#{max_es} NULTS_OUTER=${n} #{membind} ./dgemm_lib_abt #{L} #{M} #{N}", niter, (n >= 64)
+      run "OMPC_NUM_PROCS=#{max_es} NULTS_OUTER=#{n} NULTS_INNER=#{num_threads_inner} #{membind} ./dgemm_lib_abt #{L} #{M} #{N}", niter, (n >= 64)
     end
   end,
 }
