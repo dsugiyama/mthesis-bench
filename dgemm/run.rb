@@ -6,6 +6,7 @@ num_threads = []
 niter = "1"
 membind = ""
 iomp_proc_bind = "OMP_PROC_BIND=true"
+max_es = 48
 
 parser = OptionParser.new
 parser.on('-m', '--matsize=L,M,N', 'Matrix size (C[L][N] = A[L][M] * B[M][N])') do |v|
@@ -22,7 +23,7 @@ parser.on('-i', '--num-iterations=NUM', 'Number of iterations') do |v|
 end
 parser.on('--knl', 'Whether executed on KNL') do
     membind = "numactl --membind 1"
-    iomp_proc_bind = ""
+    max_es = 256
 end
 parser.on_tail('-h', '--help', 'Show this message') do
     puts parser
@@ -120,7 +121,7 @@ workloads = {
 
   'abt-lib' => lambda do
     num_threads.each do |n|
-      run "OMPC_NUM_PROCS=#{n} #{membind} ./dgemm_lib_abt #{L} #{M} #{N}", niter, (n >= 64)
+      run "OMPC_NUM_PROCS=#{max_es} NULTS_OUTER=${n} #{membind} ./dgemm_lib_abt #{L} #{M} #{N}", niter, (n >= 64)
     end
   end,
 }
