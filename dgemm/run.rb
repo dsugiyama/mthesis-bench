@@ -19,7 +19,7 @@ end
 parser.on('-n', '--num-threads=LIST', 'Number of threads (comma-separated list)') do |v|
     num_threads = v.split(',').map(&:to_i)
 end
-parser.on('--num-threads-inner', 'Degree of inner level parallelism') do |v|
+parser.on('--num-threads-inner=VAL', 'Degree of inner level parallelism') do |v|
   num_threads_inner = v.to_i
 end
 
