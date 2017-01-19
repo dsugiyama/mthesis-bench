@@ -30,4 +30,4 @@ $ICC test_abt.c dgemm_abt.c ../clock.c ../ompc_serial_spawn.c -o dgemm_abt_seria
     -I/home/sugiyama/inst/argobots/opt/include -L/home/sugiyama/inst/argobots/opt/lib \
     -labt -lpthread
 
-$ICC test_abt.c dgemm_abt.c ../clock.c ../ompc_pthreads.c -o dgemm_abt_pthreads -lpthread
+$ICC test_abt.c dgemm_abt.c ../clock.c ../ompc_pthreads.c -o dgemm_abt_pthreads -lpthread -DUSE_PTHREADS

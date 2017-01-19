@@ -1,7 +1,9 @@
 #include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
-#include <abt.h>
+#ifndef USE_PTHREADS
+# include <abt.h>
+#endif
 #include "../ompc.h"
 
 void daxpy(size_t n, double a, double x[restrict], double y[restrict]);
@@ -16,7 +18,12 @@ static void _loop_func_0(uint64_t from, uint64_t to_exclusive, int step, void *a
 {
 #ifdef ENABLE_LOGGING
     int rank;
+# ifdef USE_PTHREADS
+    extern _Thread_local int tid;
+    rank = tid;
+# else
     ABT_xstream_self_rank(&rank);
+# endif
     iter_start[rank] = get_clock();
 #endif
 
