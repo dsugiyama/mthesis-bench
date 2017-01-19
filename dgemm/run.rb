@@ -126,7 +126,7 @@ workloads = {
 
   'abt-lib' => lambda do
     num_threads.each do |n|
-      run "OMPC_NUM_PROCS=#{max_es} NULTS_OUTER=#{n} NULTS_INNER=#{num_threads_inner} #{membind} ./dgemm_lib_abt #{L} #{M} #{N}", niter, (n >= 64)
+      run "OMPC_NUM_PROCS=#{[max_es, n * num_threads_inner].min} NULTS_OUTER=#{n} NULTS_INNER=#{num_threads_inner} #{membind} ./dgemm_lib_abt #{L} #{M} #{N}", niter, (n >= 64)
     end
   end,
 }
