@@ -18,6 +18,11 @@ else
                 -lompc -labt -lhwloc -lpthread -qopenmp"
 fi
 
+if [[ $1 == log || $2 == log ]]; then
+    ICC="$ICC -DENABLE_LOGGING"
+    GCC="$GCC -DENABLE_LOGGING"
+fi
+
 $ICC test_omp.c dgemm_omp.c ../clock.c -o dgemm_serial
 $ICC test_omp.c dgemm_omp.c ../clock.c -o dgemm_iomp_block  -qopenmp
 $ICC test_omp.c dgemm_omp.c ../clock.c -o dgemm_iomp_cyclic -qopenmp -DSCHED_CYCLIC
