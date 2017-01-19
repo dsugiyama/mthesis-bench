@@ -39,6 +39,7 @@ void *worker_main(void *arg)
     while (true) {
         while (!((bool volatile *) loop_start)[tid]) ;
         __sync_synchronize();
+        loop_start[tid] = false;
         if (worker_end) return NULL;
         loop_schedule(loop_info);
     }
