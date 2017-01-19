@@ -12,6 +12,7 @@ _Thread_local int tid;
 
 bool loop_start[256];
 void *loop_info;
+bool volatile worker_end = false;
 
 pthread_barrier_t barrier;
 
@@ -37,6 +38,7 @@ void *worker_main(void *arg)
 
     while (true) {
         while (!((bool volatile *) loop_start)[tid]) ;
+        if (worker_end) return NULL;
         loop_schedule(loop_info);
     }
 }
@@ -54,11 +56,19 @@ int main(int argc, char *argv[])
     }
 
     threads[0] = pthread_self();
+    tid = 0;
     for (int i = 1; i < num_threads; i++) {
         pthread_create(&threads[i], NULL, worker_main, (void *) i);
     }
 
-    return ompc_main(argc, argv);
+    ompc_main(argc, argv);
+
+    worker_end = true;
+    for (int i = 1; i < num_threads; i++) {
+        loop_start[i] = true;
+        void *retval;
+        pthread_join(threads[i], &retval);
+    }
 }
 
 int ompc_get_max_threads(void)
