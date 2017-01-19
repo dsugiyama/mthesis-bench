@@ -38,6 +38,7 @@ void *worker_main(void *arg)
 
     while (true) {
         while (!((bool volatile *) loop_start)[tid]) ;
+        __sync_synchronize();
         if (worker_end) return NULL;
         loop_schedule(loop_info);
     }
@@ -82,6 +83,7 @@ void ompc_loop_divide_conquer(loop_func_t func, int nargs, void *args,
     // assume num_threads > 1
     void *loop_schedule_args[] = { func, args, &from, &to_exclusive };
     loop_info = loop_schedule_args;
+    __sync_synchronize();
     for (int i = 1; i < num_threads; i++) {
         loop_start[i] = true;
     }
